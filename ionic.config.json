@@ -1,0 +1,7 @@
+{
+  "name": "dharug-gathering",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

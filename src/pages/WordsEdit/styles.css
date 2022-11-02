@@ -1,0 +1,9 @@
+.admin {
+    padding: .5rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.admin ion-text p {
+    margin: .5rem 0;
+}

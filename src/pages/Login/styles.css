@@ -1,0 +1,14 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 1.2rem;
+}
+
+.icon {
+    margin-bottom: 2rem;
+}
+ion-title.title-large {
+    color: rgb(204, 119, 50);
+    font-size: 35px;
+  }

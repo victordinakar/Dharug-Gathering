@@ -1,0 +1,354 @@
+[
+    {
+      "id": 1,
+      "category": "Anatomy",
+      "english_language": "Arms",
+      "dharug_language": "MInning",
+      "english_audio_path": "audio/CategoryWise/Anatomy/Arms/Arms.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Anatomy/Arms/MInning.mp3"
+    },
+    {
+      "id": 2,
+      "category": "Anatomy",
+      "english_language": "Blood",
+      "dharug_language": "Bunarang",
+      "english_audio_path": "audio/CategoryWise/Anatomy/Blood/Blood.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Anatomy/Blood/Bunarang.mp3"
+    },
+    {
+      "id": 3,
+      "category": "Anatomy",
+      "english_language": "Bone",
+      "dharug_language": "Djarra",
+      "english_audio_path": "audio/CategoryWise/Anatomy/Bone/Bone.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Anatomy/Bone/Djarra.mp3"
+    },
+    {
+      "id": 4,
+      "category": "Anatomy",
+      "english_language": "Breast",
+      "dharug_language": "Nabung",
+      "english_audio_path": "audio/CategoryWise/Anatomy/Breast/Breast.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Anatomy/Breast/Nabung.mp3"
+    },
+    {
+      "id": 5,
+      "category": "Anatomy",
+      "english_language": "Chest",
+      "dharug_language": "Gungaray",
+      "english_audio_path": "audio/CategoryWise/Anatomy/Chest/Chest.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Anatomy/Chest/Gungaray.mp3"
+    },
+    {
+      "id": 6,
+      "category": "Anatomy",
+      "english_language": "Chin",
+      "dharug_language": "Walu",
+      "english_audio_path": "audio/CategoryWise/Anatomy/Chin/Chin.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Anatomy/Chin/Walu.mp3"
+    },
+    {
+      "id": 7,
+      "category": "Anatomy",
+      "english_language": "Eyebrows",
+      "dharug_language": "Yenneri",
+      "english_audio_path": "audio/CategoryWise/Anatomy/Eyebrows/Eyebrows.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Anatomy/Eyebrows/Yenneri.mp3"
+    },
+    {
+      "id": 8,
+      "category": "Anatomy",
+      "english_language": "Fingernails",
+      "dharug_language": "Guren",
+      "english_audio_path": "audio/CategoryWise/Anatomy/Fingernails/Fingernails.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Anatomy/Fingernails/Guren.mp3"
+    },
+    {
+      "id": 9,
+      "category": "Anatomy",
+      "english_language": "Heart",
+      "dharug_language": "ButButt",
+      "english_audio_path": "audio/CategoryWise/Anatomy/Heart/Heart.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Anatomy/Heart/ButButt.mp3"
+    },
+    {
+      "id": 10,
+      "category": "Animals",
+      "english_language": "Bat",
+      "dharug_language": "Warambi",
+      "english_audio_path": "audio/CategoryWise/Animals/Bat/Bat.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Animals/Bat/Warambi.mp3"
+    },
+    {
+      "id": 11,
+      "category": "Animals",
+      "english_language": "Bird",
+      "dharug_language": "Binyang",
+      "english_audio_path": "audio/CategoryWise/Animals/Bird/Bird.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Animals/Bird/Binyang.mp3"
+    },
+    {
+      "id": 12,
+      "category": "Animals",
+      "english_language": "Black Bream",
+      "dharug_language": "Garuma",
+      "english_audio_path": "audio/CategoryWise/Animals/Black Bream/Black Bream.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Animals/Black Bream/Garuma.mp3"
+    },
+    {
+      "id": 13,
+      "category": "Animals",
+      "english_language": "Black Swan",
+      "dharug_language": "Mulga",
+      "english_audio_path": "audio/CategoryWise/Animals/Black Swan/Black Swan.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Animals/Black Swan/Mulga.mp3"
+    },
+    {
+      "id": 14,
+      "category": "Animals",
+      "english_language": "Blue Tongue",
+      "dharug_language": "Bunmarra",
+      "english_audio_path": "audio/CategoryWise/Animals/Blue Tongue/Blue Tongue.wav",
+      "dharug_audio_path": "audio/CategoryWise/Animals/Blue Tongue/Bunmarra.wav"
+    },
+    {
+      "id": 15,
+      "category": "Animals",
+      "english_language": "Brown Snake",
+      "dharug_language": "Marragawan",
+      "english_audio_path": "audio/CategoryWise/Animals/Brown Snake/Brown Snake.wav",
+      "dharug_audio_path": "audio/CategoryWise/Animals/Brown Snake/Marragawan.wav"
+    },
+    {
+      "id": 16,
+      "category": "Animals",
+      "english_language": "Bull Head Shark",
+      "dharug_language": "Wallu-mill",
+      "english_audio_path": "audio/CategoryWise/Animals/Bull Head Shark/Bull Head Shark.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Animals/Bull Head Shark/Wallu-mill.mp3"
+    },
+    {
+      "id": 17,
+      "category": "Animals",
+      "english_language": "Dog",
+      "dharug_language": "Warragul",
+      "english_audio_path": "audio/CategoryWise/Animals/Dog/Dog.mp3",
+      "dharug_audio_path": "audio/CategoryWise/Animals/Dog/Warragul.mp3"
+    },
+    {
+      "id": 18,
+      "category": "Days Of The Week",
+      "english_language": "Friday",
+      "dharug_language": "Gunamaga",
+      "english_audio_path": "audio/CategoryWise/Days Of The Week/Friday/Friday.wav",
+      "dharug_audio_path": "audio/CategoryWise/Days Of The Week/Friday/Gunamaga.wav"
+    },
+    {
+      "id": 19,
+      "category": "Days Of The Week",
+      "english_language": "Monday",
+      "dharug_language": "Yanadag",
+      "english_audio_path": "audio/CategoryWise/Days Of The Week/Monday/Monday.wav",
+      "dharug_audio_path": "audio/CategoryWise/Days Of The Week/Monday/Yanadag.wav"
+    },
+    {
+      "id": 20,
+      "category": "Days Of The Week",
+      "english_language": "Saturday",
+      "dharug_language": "Murjalga",
+      "english_audio_path": "audio/CategoryWise/Days Of The Week/Saturday/Saturday.wav",
+      "dharug_audio_path": "audio/CategoryWise/Days Of The Week/Saturday/Murjalga.wav"
+    },
+    {
+      "id": 21,
+      "category": "Days Of The Week",
+      "english_language": "Sunday",
+      "dharug_language": "Gwiangaga",
+      "english_audio_path": "audio/CategoryWise/Days Of The Week/Sunday/Sunday.wav",
+      "dharug_audio_path": "audio/CategoryWise/Days Of The Week/Sunday/Gwiangaga.wav"
+    },
+    {
+      "id": 22,
+      "category": "Days Of The Week",
+      "english_language": "Thursday",
+      "dharug_language": "Murungalga",
+      "english_audio_path": "audio/CategoryWise/Days Of The Week/Thursday/Thursday.wav",
+      "dharug_audio_path": "audio/CategoryWise/Days Of The Week/Thursday/Murungalga.wav"
+    },
+    {
+      "id": 23,
+      "category": "Days Of The Week",
+      "english_language": "Tuesday",
+      "dharug_language": "Nye-ga",
+      "english_audio_path": "audio/CategoryWise/Days Of The Week/Tuesday/Tuesday.wav",
+      "dharug_audio_path": "audio/CategoryWise/Days Of The Week/Tuesday/Nye-ga.wav"
+    },
+    {
+      "id": 24,
+      "category": "Days Of The Week",
+      "english_language": "Wednesday",
+      "dharug_language": "Birrungga",
+      "english_audio_path": "audio/CategoryWise/Days Of The Week/Wednesday/Wednesday.wav",
+      "dharug_audio_path": "audio/CategoryWise/Days Of The Week/Wednesday/Birrungga.wav"
+    },
+    {
+      "id": 25,
+      "category": "Elements",
+      "english_language": "Earth",
+      "dharug_language": "Bembul",
+      "english_audio_path": "audio/CategoryWise/Elements/Earth/Earth.wav",
+      "dharug_audio_path": "audio/CategoryWise/Elements/Earth/Bembul.wav"
+    },
+    {
+      "id": 26,
+      "category": "Elements",
+      "english_language": "Fire",
+      "dharug_language": "Gwianga",
+      "english_audio_path": "audio/CategoryWise/Elements/Fire/Fire.wav",
+      "dharug_audio_path": "audio/CategoryWise/Elements/Fire/Gwianga.wav"
+    },
+    {
+      "id": 27,
+      "category": "Elements",
+      "english_language": "Water",
+      "dharug_language": "Badu",
+      "english_audio_path": "audio/CategoryWise/Elements/Water/Water.wav",
+      "dharug_audio_path": "audio/CategoryWise/Elements/Water/Badu.wav"
+    },
+    {
+      "id": 28,
+      "category": "Elements",
+      "english_language": "Wind",
+      "dharug_language": "Guwarra",
+      "english_audio_path": "audio/CategoryWise/Elements/Wind/Wind.wav",
+      "dharug_audio_path": "audio/CategoryWise/Elements/Wind/Guwarra.wav"
+    },
+    {
+      "id": 29,
+      "category": "General",
+      "english_language": "Belonging",
+      "dharug_language": "Mirrung",
+      "english_audio_path": "audio/CategoryWise/General/Belonging/Belonging.wav",
+      "dharug_audio_path": "audio/CategoryWise/General/Belonging/Mirrung.wav"
+    },
+    {
+      "id": 30,
+      "category": "General",
+      "english_language": "Children",
+      "dharug_language": "Gulyangarri",
+      "english_audio_path": "audio/CategoryWise/General/Children/Children.wav",
+      "dharug_audio_path": "audio/CategoryWise/General/Children/Gulyangarri.wav"
+    },
+    {
+      "id": 31,
+      "category": "General",
+      "english_language": "Coroboree",
+      "dharug_language": "Garriberri",
+      "english_audio_path": "audio/CategoryWise/General/Coroboree/Coroboree.wav",
+      "dharug_audio_path": "audio/CategoryWise/General/Coroboree/Garriberri.wav"
+    },
+    {
+      "id": 32,
+      "category": "General",
+      "english_language": "Dance",
+      "dharug_language": "Darunga",
+      "english_audio_path": "audio/CategoryWise/General/Dance/Dance.wav",
+      "dharug_audio_path": "audio/CategoryWise/General/Dance/Darunga.wav"
+    },
+    {
+      "id": 33,
+      "category": "General",
+      "english_language": "Dirt",
+      "dharug_language": "Gitti Gitti",
+      "english_audio_path": "audio/CategoryWise/General/Dirt/Dirt.wav",
+      "dharug_audio_path": "audio/CategoryWise/General/Dirt/Gitti Gitti.wav"
+    },
+    {
+      "id": 34,
+      "category": "General",
+      "english_language": "Fishing",
+      "dharug_language": "Maugerry",
+      "english_audio_path": "audio/CategoryWise/General/Fishing/Fishing.wav",
+      "dharug_audio_path": "audio/CategoryWise/General/Fishing/Maugerry.wav"
+    },
+    {
+      "id": 35,
+      "category": "Sentences",
+      "english_language": "I am flying to Gadigal Country",
+      "dharug_language": "Ngaya wumara-wa Gadigal nura",
+      "english_audio_path": "",
+      "dharug_audio_path": "audio/Sentences/1. Ngaya wumara-wa Gadigal nura.wav"
+    },
+    {
+      "id": 36,
+      "category": "Sentences",
+      "english_language": "I am a magpie",
+      "dharug_language": "ngaya Wilbung",
+      "english_audio_path": "",
+      "dharug_audio_path": "audio/Sentences/2. ngaya Wilbung.wav"
+    },
+    {
+      "id": 37,
+      "category": "Sentences",
+      "english_language": "I am a song bird",
+      "dharug_language": "ngaya-ma yibbun-ga yidbung murradjulbi",
+      "english_audio_path": "",
+      "dharug_audio_path": "audio/Sentences/3. ngaya-ma yibbun-ga yidbung murradjulbi.wav"
+    },
+    {
+      "id": 38,
+      "category": "Sentences",
+      "english_language": "I am a totem of the Dharug",
+      "dharug_language": "ngaya nangyilaburgay-ga Buruberongal",
+      "english_audio_path": "",
+      "dharug_audio_path": "audio/Sentences/4. ngaya nangyilaburgay-ga Buruberongal.wav"
+    },
+    {
+      "id": 39,
+      "category": "Sentences",
+      "english_language": "I am flying over country",
+      "dharug_language": "ngaya wumara nura-ma",
+      "english_audio_path": "",
+      "dharug_audio_path": "audio/Sentences/5. ngaya wumara nura-ma.wav"
+    },
+    {
+      "id": 40,
+      "category": "Sentences",
+      "english_language": "Gadigal country is our country",
+      "dharug_language": "Daragule, Gadigal, Dharwawal dah ngyinu nura",
+      "english_audio_path": "",
+      "dharug_audio_path": "audio/Sentences/6. Daragule, Gadigal, Dharwawal dah ngyinu nura.wav"
+    },
+    {
+      "id": 41,
+      "category": "Sentences",
+      "english_language": "I am the whale (Wolloomooloo)",
+      "dharug_language": "ngaya gawara Wulamulu",
+      "english_audio_path": "",
+      "dharug_audio_path": "audio/Sentences/7. ngaya gawara Wulamulu.wav"
+    },
+    {
+      "id": 42,
+      "category": "Sentences",
+      "english_language": "This is the place where we corroboree for this area",
+      "dharug_language": "Diya dah wingaru nura nunang la nung ngyina garriberri",
+      "english_audio_path": "",
+      "dharug_audio_path": "audio/Sentences/10. Diya dah wingaru nura nunang la nung ngyina garriberri.wav"
+    },
+    {
+      "id": 43,
+      "category": "Sentences",
+      "english_language": "There are no trees on the corroboree ground",
+      "dharug_language": "Biyall yinyan garriberri-wa nura",
+      "english_audio_path": "",
+      "dharug_audio_path": "audio/Sentences/11. Biyall yinyan garriberri-wa nura.wav"
+    },
+    {
+      "id": 44,
+      "category": "Sentences",
+      "english_language": "I the moiety totem of the people",
+      "dharug_language": "ngyina nangyilaburgay-ga Iyura-wa",
+      "english_audio_path": "",
+      "dharug_audio_path": "audio/Sentences/15. ngyina nangyilaburgay-ga Iyura-wa.wav"
+    }
+]
