@@ -41,8 +41,8 @@ const Admin: React.FC = () => {
     if (searchVal) {
       const res = wrds.filter(
         (w) =>
-          String(w.english_language).toLowerCase().indexOf(searchVal) > -1 ||
-          String(w.dharug_language).toLowerCase().indexOf(searchVal) > -1 ||
+          String(w.english).toLowerCase().indexOf(searchVal) > -1 ||
+          String(w.dharug).toLowerCase().indexOf(searchVal) > -1 ||
           String(w.category).toLowerCase().indexOf(searchVal) > -1
       );
       setWords(res);
@@ -67,15 +67,15 @@ const Admin: React.FC = () => {
             <IonIcon className="color-green" icon={earth} />
           </IonCol>
           <IonCol size="10.5">
-            <IonRouterLink routerLink={`/play/${word.docId}`}>
+            <IonRouterLink routerLink={`/play/${word.id}`}>
               <IonText>
                 <p>
                   <b>English: </b>
-                  {word.english_language}
+                  {word.english}
                 </p>
                 <p>
                   <b>Dharug: </b>
-                  {word.dharug_language}
+                  {word.dharug}
                 </p>
                 <p>
                   <b>Category: </b>

@@ -1,5 +1,5 @@
 import React from "react";
-import { IonCol, IonLabel, IonGrid, IonRow } from "@ionic/react";
+import { IonCol, IonLabel, IonGrid, IonRow, IonImg } from "@ionic/react";
 import AppContainer from "../../components/AppContainer";
 import "./styles.css";
 const abstract =
@@ -9,7 +9,10 @@ const Home: React.FC = () => {
     <AppContainer>
       <IonGrid style={{ padding: 0, margin: "-1rem " }}>
         <IonRow>
-          <IonCol className="body">
+        {/* <IonImg src="https://docs-demo.ionic.io/assets/madison.jpg" alt="The Wisconsin State Capitol building in Madison, WI at night"></IonImg> */}
+        </IonRow>
+        <IonRow>
+          <IonCol className="body">            
             <IonLabel>{abstract}</IonLabel>
           </IonCol>
         </IonRow>

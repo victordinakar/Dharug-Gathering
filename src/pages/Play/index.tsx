@@ -14,9 +14,8 @@ const Play: React.FC = () => {
   const [playing, setPlaying] = useState<string | null>(null);
 
   useEffect(() => {
-    setWord(words.find((wd) => wd.docId == id) || {});
+    setWord(words.find((wd) => wd.id == id) || {});
   }, [words, id]);
-
   const playAudioWithUrl = (filePath: string, playing: string) => {
     const file = Media.create(filePath);
     setPlaying(playing);
@@ -83,7 +82,7 @@ const Play: React.FC = () => {
         {Boolean(word?.id) && (
           <div>
             <div className="item">
-              <p>{word.english_language}</p>
+              <p>{word.english}</p>
               {Boolean(word?.englishAudioUrl || word?.englishAudio) && (
                 <IonButton
                   color="light"
@@ -97,9 +96,7 @@ const Play: React.FC = () => {
               )}
             </div>
             <div className="item">
-              <p style={{ fontSize: 24, color: "#000" }}>
-                {word.dharug_language}
-              </p>
+              <p style={{ fontSize: 24 }}>{word.dharug}</p>
               {Boolean(word?.dharugAudioUrl || word?.dharugAudio) && (
                 <IonButton
                   onClick={() =>

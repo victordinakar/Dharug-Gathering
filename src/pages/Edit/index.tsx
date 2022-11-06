@@ -31,6 +31,7 @@ import {
   RecordingData,
   GenericResponse,
 } from "capacitor-voice-recorder";
+import { defaultCipherList } from "constants";
 
 const Edit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -43,22 +44,27 @@ const Edit: React.FC = () => {
   const defaultWord = {
     category: "",
     dharugAudioFile: "",
-    dharug_language: "",
+    dharug: "",
     englishAudioFile: "",
-    english_language: "",
+    english: "",
     id: words.length + 1 || "",
   };
-
+  const [mimeTypeDharugAudio, setMimeTypeDharugAudio] = useState<string | null>(
+    null
+  );
+  const [base64DharugAudio, setBase64DharugAudio] = useState<string | null>(
+    null
+  );
   const [word, setWord] = useState<any>({});
   const [micStatus, setMicStatus] = useState<string | null>(null);
 
   const handleUpload = async () => {
     setErrors({});
     if (!word.id) return setErrors({ id: "Id is required" });
-    if (!word.english_language)
-      return setErrors({ english_language: "English language is required" });
-    if (!word.dharug_language)
-      return setErrors({ dharug_language: "Dharug language is required" });
+    if (!word.english)
+      return setErrors({ english: "English language is required" });
+    if (!word.dharug)
+      return setErrors({ dharug: "Dharug language is required" });
     if (!word.category) return setErrors({ category: "Category is required" });
     if (id && !word.docId)
       return setErrors({ message: "No document ID provided" });
@@ -112,7 +118,7 @@ const Edit: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      setWord(words.find((wd) => wd.docId == id) || {});
+      setWord(words.find((wd) => wd.id == id) || {});
     } else {
       setWord(defaultWord);
     }
@@ -120,18 +126,16 @@ const Edit: React.FC = () => {
 
   VoiceRecorder.requestAudioRecordingPermission().then(
     (result: GenericResponse) => {
-      console.log("requestAudioRecordingPermission " + result.value);
+      // console.log("requestAudioRecordingPermission " + result.value);
     }
   );
   VoiceRecorder.canDeviceVoiceRecord().then((result: GenericResponse) => {
-    console.log("canDeviceVoiceRecord" + result.value);
+    // console.log("canDeviceVoiceRecord" + result.value);
   });
 
   const record = async (lang: string) => {
     if (!VoiceRecorder.hasAudioRecordingPermission())
       VoiceRecorder.requestAudioRecordingPermission();
-    let l = "d";
-    if (lang == "englishAudio") l = "e";
     if (micStatus == null) {
       await VoiceRecorder.startRecording()
         .then((result: GenericResponse) =>
@@ -139,39 +143,42 @@ const Edit: React.FC = () => {
         )
         .catch((error) => console.log(error));
 
-      setMicStatus(l + "playing");
-    } else if (micStatus == l + "playing") {
-      VoiceRecorder.pauseRecording();
-      setMicStatus(l + "paused");
-    } else if (micStatus == l + "paused") {
-      VoiceRecorder.resumeRecording();
-      setMicStatus(l + "playing");
+      setMicStatus("recording");
+    } else {
+      VoiceRecorder.stopRecording()
+        .then((result: RecordingData) => {
+          const base64Sound = result.value.recordDataBase64; // from plugin
+          const mimeType = result.value.mimeType; // from plugin
+          const audioRef = new Audio(`data:${mimeType};base64,${base64Sound}`);
+          audioRef.oncanplaythrough = () => audioRef.play();
+          audioRef.load();
+
+          if (lang == "dharugAudio") {
+            setWord({
+              ...word,
+              dharugAudio: result.value,
+            });
+            setBase64DharugAudio(result.value.recordDataBase64);
+            setMimeTypeDharugAudio(result.value.mimeType);
+          } else if (lang == "englishAudio") {
+            setWord({
+              ...word,
+              englishAudio: result.value,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      setMicStatus(null);
     }
   };
-  const stop = (lang: string) => {
-    VoiceRecorder.stopRecording()
-      .then((result: RecordingData) => {
-        const base64Sound = result.value.recordDataBase64; // from plugin
-        const mimeType = result.value.mimeType; // from plugin
-        const audioRef = new Audio(`data:${mimeType};base64,${base64Sound}`);
-        audioRef.oncanplaythrough = () => audioRef.play();
-        audioRef.load();
-        if (lang == "dharugAudio") {
-          setWord({
-            ...word,
-            dharugAudio: result.value,
-          });
-        } else if (lang == "englishAudio") {
-          setWord({
-            ...word,
-            englishAudio: result.value,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    setMicStatus(null);
+  const playAudio = () => {
+    const audioRef = new Audio(
+      `data:${mimeTypeDharugAudio};base64,${base64DharugAudio}`
+    );
+    audioRef.oncanplaythrough = () => audioRef.play();
+    audioRef.load();
   };
   return (
     <AppContainer backButton={true}>
@@ -193,29 +200,21 @@ const Edit: React.FC = () => {
 
             <IonLabel position="stacked">English Language</IonLabel>
             <IonTextarea
-              name="english_language"
+              name="english"
               placeholder="Enter english language"
-              onIonChange={(e) =>
-                setWord({ ...word, english_language: e.detail.value })
-              }
-              value={word.english_language}
+              onIonChange={(e) => setWord({ ...word, english: e.detail.value })}
+              value={word.english}
             />
-            {errors?.english_language && (
-              <small>{errors?.english_language || ""}</small>
-            )}
+            {errors?.english && <small>{errors?.english || ""}</small>}
 
             <IonLabel position="stacked">Dharug Language</IonLabel>
             <IonTextarea
-              name="dharug_language"
+              name="dharug"
               placeholder="Enter dharug language"
-              onIonChange={(e) =>
-                setWord({ ...word, dharug_language: e.detail.value })
-              }
-              value={word.dharug_language}
+              onIonChange={(e) => setWord({ ...word, dharug: e.detail.value })}
+              value={word.dharug}
             />
-            {errors?.dharug_language && (
-              <small>{errors?.dharug_language || ""}</small>
-            )}
+            {errors?.dharug && <small>{errors?.dharug || ""}</small>}
 
             <IonLabel position="stacked">Category</IonLabel>
             {newCategory ? (
@@ -256,7 +255,7 @@ const Edit: React.FC = () => {
             </small>
             {errors?.category && <small>{errors?.category || ""}</small>}
 
-            <IonLabel position="stacked">English Audio</IonLabel>
+            {/* <IonLabel position="stacked">English Audio</IonLabel>
             <input
               name="englishAudioFile"
               type="file"
@@ -276,28 +275,28 @@ const Edit: React.FC = () => {
                 }
               }}
             />
-            {errors?.id && <small>{errors?.id || ""}</small>}
-            <IonRow>
+            {errors?.id && <small>{errors?.id || ""}</small>} */}
+            {/* <IonRow>
               <IonCol>
-                <IonItem onClick={() => record("englishAudio")}>
+                <IonItem class="center" onClick={() => record("englishAudio")}>
                   <IonIcon
                     icon={
-                      (Boolean(micStatus == "epaused") && play) ||
-                      (Boolean(micStatus == "eplaying") && pause) ||
+                      (Boolean(micStatus == "erecording") && stopOutline) ||
                       micOutline
                     }
                   />
-                  <IonLabel>Record</IonLabel>
+                  <IonLabel>
+                    {micStatus == "erecording" ? "Stop" : "Record"}
+                  </IonLabel>
                 </IonItem>
               </IonCol>
+            </IonRow> */}
+            <IonRow>
               <IonCol>
-                <IonItem onClick={() => stop("englishAudio")}>
-                  <IonIcon icon={stopOutline}></IonIcon>
-                  <IonLabel>Stop Recording</IonLabel>
-                </IonItem>
+                <IonLabel position="stacked">Dharug Audio</IonLabel>
               </IonCol>
+              
             </IonRow>
-            <IonLabel position="stacked">Dharug Audio</IonLabel>
             <input
               name="dharugAudioFile"
               type="file"
@@ -322,25 +321,26 @@ const Edit: React.FC = () => {
             )}
             <IonRow>
               <IonCol>
-                <IonItem onClick={() => record("dharugAudio")}>
+                <IonItem class="center" onClick={() => record("dharugAudio")}>
                   <IonIcon
                     icon={
-                      (Boolean(micStatus == "dpaused") && play) ||
-                      (Boolean(micStatus == "dplaying") && pause) ||
+                      (Boolean(micStatus == "recording") && stopOutline) ||
                       micOutline
                     }
                   />
-                  <IonLabel>Record</IonLabel>
-                </IonItem>
-              </IonCol>
-              <IonCol>
-                <IonItem onClick={() => stop("dharugAudio")}>
-                  <IonIcon icon={stopOutline}></IonIcon>
-                  <IonLabel>Stop Recording</IonLabel>
+                  <IonLabel>
+                    {micStatus == "recording" ? "Stop" : "Record"}
+                  </IonLabel>
                 </IonItem>
               </IonCol>
             </IonRow>
-
+            <IonRow>
+            <IonCol>
+                {Boolean(base64DharugAudio != null) && (
+                  <IonButton onClick={playAudio}>Play</IonButton>
+                )}
+              </IonCol>
+              </IonRow>
             <IonButton
               onClick={() => handleUpload()}
               disabled={processing || deleting}

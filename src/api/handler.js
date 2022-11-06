@@ -21,7 +21,7 @@ import {
 
 const db = getFirestore(app);
 const storage = getStorage(app);
-const wordsCollectionName = "vWords";
+const wordsCollectionName = "wordList";
 
 export let words = [];
 export let userInfo = {};
@@ -30,7 +30,8 @@ export const setUserInfo = (val) => (userInfo = val);
 
 export const setUpDb = async () => {
   return new Promise((resolve, reject) => {
-    let count = 0;
+    let count = 230;
+    const c = count;
     try {
       data.map(async ({ english_audio_path, dharug_audio_path, ...datum }) => {
         const docRef = await addDoc(collection(db, wordsCollectionName), datum);
@@ -40,12 +41,13 @@ export const setUpDb = async () => {
             .then((resp) => resp.blob())
             .then(async (blob) => {
               const fileReader = new FileReader();
+
               fileReader.readAsArrayBuffer(blob);
               fileReader.onload = async function (e) {
                 const file = e.target.result;
                 const englishRef = ref(
                   storage,
-                  `audios/${docRef.id}/english.mp3`
+                  `audio_data/${docRef.id}/english.mp3`
                 );
                 const englishTask = await uploadBytes(englishRef, file);
                 const englishAudioUrl = await getDownloadURL(englishRef);
@@ -68,7 +70,7 @@ export const setUpDb = async () => {
                 const file = e.target.result;
                 const dharugRef = ref(
                   storage,
-                  `audios/${docRef.id}/dharug.mp3`
+                  `audio_data/${docRef.id}/dharug.mp3`
                 );
                 const dharugTask = await uploadBytes(dharugRef, file);
                 const dharugAudioUrl = await getDownloadURL(dharugRef);
@@ -82,8 +84,8 @@ export const setUpDb = async () => {
         }
 
         count += 1;
-        console.log(count, data.length);
-        if (count === data.length) {
+        console.log(count, c, data.length);
+        if (c === count + data.length) {
           resolve("finished");
         }
       });
@@ -134,7 +136,11 @@ export const addWord = async (payload) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { englishAudioFile, dharugAudioFile, id, ...datum } = payload;
-      const docRef = await addDoc(collection(db, wordsCollectionName), datum);
+      const docRef = await addDoc(
+        collection(db, wordsCollectionName),
+        datum,
+        id
+      );
       docId = docRef.id;
       await updateDoc(docRef, {
         docId: docId,

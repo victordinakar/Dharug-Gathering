@@ -30,8 +30,8 @@ const Category: React.FC = () => {
     if (searchVal) {
       const res = wrds.filter(
         (w) =>
-          String(w.english_language).toLowerCase().indexOf(searchVal) > -1 ||
-          String(w.dharug_language).toLowerCase().indexOf(searchVal) > -1 ||
+          String(w.english).toLowerCase().indexOf(searchVal) > -1 ||
+          String(w.dharug).toLowerCase().indexOf(searchVal) > -1 ||
           String(w.category).toLowerCase().indexOf(searchVal) > -1
       );
       setWords(res);
@@ -46,18 +46,18 @@ const Category: React.FC = () => {
         {wrds
           .filter((word) => word.category == category)
           .map((word, key) => (
-            <IonRouterLink routerLink={`/play/${word.docId}`} key={key}>
+            <IonRouterLink routerLink={`/play/${word.id}`} key={key}>
               <IonRow className="word-list" key={key}>
                 <IonCol size="9">
                   <IonItem lines="none" key={key}>
                     <IonText>
                       <b>English:</b> <br />
-                      {word.english_language}
+                      {word.english}
                     </IonText>
                   </IonItem>
                   <IonItem lines="none">
                     <IonText>
-                      <b>Dharug:</b> <br /> {word.dharug_language}
+                      <b>Dharug:</b> <br /> {word.dharug}
                     </IonText>
                   </IonItem>
                 </IonCol>

@@ -1,7 +1,9 @@
 ion-grid.edit {
     padding: .5rem;
 }
-
+.center {
+    text-align: center;
+}
 .edit .info {
     text-align: left;
     margin-top: 0;
