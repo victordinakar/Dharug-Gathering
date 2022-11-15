@@ -9,7 +9,7 @@ const Home: React.FC = () => {
     <AppContainer>
       <IonGrid style={{ padding: 0, margin: "-1rem " }}>
         <IonRow>
-        {/* <IonImg src="https://docs-demo.ionic.io/assets/madison.jpg" alt="The Wisconsin State Capitol building in Madison, WI at night"></IonImg> */}
+        <IonImg src="https://cms-cdn.travellink.com.au/volumes/cccsyd/images/Default-jpg/_1200x630_crop_center-center_82_none/Aboriginal-Flag-Opera-House-stock.jpg?v=1661335309" alt="The Wisconsin State Capitol building in Madison, WI at night"></IonImg>
         </IonRow>
         <IonRow>
           <IonCol className="body">            

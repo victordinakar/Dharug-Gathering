@@ -18,6 +18,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
+import axios from "axios";
 
 const db = getFirestore(app);
 const storage = getStorage(app);
@@ -26,87 +27,8 @@ const wordsCollectionName = "wordList";
 export let words = [];
 export let userInfo = {};
 export let docId;
+export let word = null;
 export const setUserInfo = (val) => (userInfo = val);
-
-export const setUpDb = async () => {
-  return new Promise((resolve, reject) => {
-    let count = 230;
-    const c = count;
-    try {
-      data.map(async ({ english_audio_path, dharug_audio_path, ...datum }) => {
-        const docRef = await addDoc(collection(db, wordsCollectionName), datum);
-
-        if (english_audio_path) {
-          await fetch(`../assets/${english_audio_path}`)
-            .then((resp) => resp.blob())
-            .then(async (blob) => {
-              const fileReader = new FileReader();
-
-              fileReader.readAsArrayBuffer(blob);
-              fileReader.onload = async function (e) {
-                const file = e.target.result;
-                const englishRef = ref(
-                  storage,
-                  `audio_data/${docRef.id}/english.mp3`
-                );
-                const englishTask = await uploadBytes(englishRef, file);
-                const englishAudioUrl = await getDownloadURL(englishRef);
-
-                await updateDoc(docRef, {
-                  englishAudioUrl,
-                  docId: docRef.id,
-                });
-              };
-            });
-        }
-
-        if (dharug_audio_path) {
-          await fetch(`../assets/${dharug_audio_path}`)
-            .then((resp) => resp.blob())
-            .then(async (blob) => {
-              const fileReader = new FileReader();
-              fileReader.readAsArrayBuffer(blob);
-              fileReader.onload = async function (e) {
-                const file = e.target.result;
-                const dharugRef = ref(
-                  storage,
-                  `audio_data/${docRef.id}/dharug.mp3`
-                );
-                const dharugTask = await uploadBytes(dharugRef, file);
-                const dharugAudioUrl = await getDownloadURL(dharugRef);
-
-                await updateDoc(docRef, {
-                  dharugAudioUrl,
-                  docId: docRef.id,
-                });
-              };
-            });
-        }
-
-        count += 1;
-        console.log(count, c, data.length);
-        if (c === count + data.length) {
-          resolve("finished");
-        }
-      });
-    } catch (err) {
-      reject(err);
-    }
-  });
-};
-
-export const getWords = async () => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const docRef = collection(db, wordsCollectionName);
-      const docSnap = await getDocs(docRef);
-      words = docSnap.docs.map((doc) => doc.data());
-      resolve(words);
-    } catch (err) {
-      reject(err);
-    }
-  });
-};
 
 export const getUser = async (userId) => {
   return new Promise(async (resolve, reject) => {
@@ -132,10 +54,52 @@ export const setUser = async (payload, userId) => {
   });
 };
 
+export const setUpDb = async () => {
+  return new Promise((resolve, reject) => {
+    let count = 230;
+    const c = count;
+    try {
+      data.map(async ({ dharug_audio_path, ...datum }) => {
+        const docRef = await addDoc(collection(db, wordsCollectionName), datum);
+        let filename = datum.dharug;
+        filename = filename.replace(" ", "_").replace("'", "");
+        filename = filename + ".mp3";
+        if (dharug_audio_path) {
+          await fetch(`../assets/${dharug_audio_path}`)
+            .then((resp) => resp.blob())
+            .then(async (blob) => {
+              const fileReader = new FileReader();
+              fileReader.readAsArrayBuffer(blob);
+              fileReader.onload = async function (e) {
+                const file = e.target.result;
+                const dharugRef = ref(storage, `audio_data/${filename}`);
+                await uploadBytes(dharugRef, file);
+                const dharugAudioUrl = await getDownloadURL(dharugRef);
+
+                await updateDoc(docRef, {
+                  dharugAudioUrl,
+                  docId: docRef.id,
+                });
+              };
+            });
+        }
+
+        count += 1;
+        console.log(count, c, data.length);
+        if (c === count + data.length) {
+          resolve("finished");
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
 export const addWord = async (payload) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { englishAudioFile, dharugAudioFile, id, ...datum } = payload;
+      const { dharugAudioFile, dharugAudio, id, ...datum } = payload;
       const docRef = await addDoc(
         collection(db, wordsCollectionName),
         datum,
@@ -146,24 +110,25 @@ export const addWord = async (payload) => {
         docId: docId,
         id: parseInt(id),
       });
-      if (englishAudioFile) {
-        const englishRef = ref(storage, `audios/${docId}/english.mp3`);
-        const englishTask = await uploadBytes(englishRef, englishAudioFile);
-        const englishAudioUrl = await getDownloadURL(englishRef);
-        await updateDoc(docRef, {
-          englishAudioUrl,
-        });
-      }
-
+      let filename = datum.dharug;
+      filename = filename.replace(" ", "_").replace("'", "");
+      filename = filename + ".mp3";
       if (dharugAudioFile) {
-        const dharugRef = ref(storage, `audios/${docId}/dharug.mp3`);
-        const dharugTask = await uploadBytes(dharugRef, dharugAudioFile);
+        console.log(`audio_data/${filename}`);
+        const dharugRef = ref(storage, `audio_data/${filename}`);
+
+        await uploadBytes(dharugRef, dharugAudioFile);
         const dharugAudioUrl = await getDownloadURL(dharugRef);
         await updateDoc(docRef, {
           dharugAudioUrl,
         });
+      } else if (dharugAudio) {
+        const base64 = dharugAudio.recordDataBase64;
+        const url = await convertBase64ToMp3(filename, base64);
+        await uploadUrlToFirebase(docRef, filename, url);
+        await deleteMp3(filename);
       }
-
+      console.log("work done");
       resolve("Word Created");
     } catch (err) {
       reject(err);
@@ -174,27 +139,27 @@ export const addWord = async (payload) => {
 export const updateWord = async (payload) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { englishAudioFile, dharugAudioFile, docId, ...datum } = payload;
+      const { dharugAudio, dharugAudioFile, docId, ...datum } = payload;
 
       if (docId) {
-        await updateDoc(doc(db, wordsCollectionName, docId), { ...datum });
+        const docRef = doc(db, wordsCollectionName, docId);
+        await updateDoc(docRef, { ...datum });
 
-        if (englishAudioFile) {
-          const englishRef = ref(storage, `audios/${docId}/english.mp3`);
-          const englishTask = await uploadBytes(englishRef, englishAudioFile);
-          const englishAudioUrl = await getDownloadURL(englishRef);
-          await updateDoc(doc(db, wordsCollectionName, docId), {
-            englishAudioUrl,
-          });
-        }
-
+        let filename = datum.dharug;
+        filename = filename.replace(" ", "_").replace("'", "");
+        filename = filename + ".mp3";
         if (dharugAudioFile) {
-          const dharugRef = ref(storage, `audios/${docId}/dharug.mp3`);
-          const dharugTask = await uploadBytes(dharugRef, dharugAudioFile);
+          const dharugRef = ref(storage, `audio_data/${filename}`);
+          await uploadBytes(dharugRef, dharugAudioFile);
           const dharugAudioUrl = await getDownloadURL(dharugRef);
-          await updateDoc(doc(db, wordsCollectionName, docId), {
+          await updateDoc(docRef, {
             dharugAudioUrl,
           });
+        } else if (dharugAudio) {
+          const base64 = dharugAudio.recordDataBase64;
+          const url = await convertBase64ToMp3(filename, base64);
+          await uploadUrlToFirebase(docRef, filename, url);
+          await deleteMp3(filename);
         }
       }
       resolve("finished");
@@ -209,18 +174,29 @@ export const deleteWord = async (docId) => {
     try {
       if (docId) {
         const docRef = doc(db, wordsCollectionName, docId);
+        const docSnap = await getDoc(docRef);
+        const dharugAudioUrl = docSnap.dharugAudioUrl;
         await deleteDoc(docRef);
         resolve("Word Deleted");
 
-        const englishRef = ref(storage, `audios/${docId}/english.mp3`);
-        const dharugRef = ref(storage, `audios/${docId}/dharug.mp3`);
-        await deleteObject(englishRef);
+        const dharugRef = ref(storage, dharugAudioUrl);
         await deleteObject(dharugRef);
       }
     } catch (err) {}
   });
 };
-export let word = null;
+export const getWords = async () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const docRef = collection(db, wordsCollectionName);
+      const docSnap = await getDocs(docRef);
+      words = docSnap.docs.map((doc) => doc.data());
+      resolve(words);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
 
 export const getWordWithDocId = async (docId) => {
   return new Promise(async (resolve, reject) => {
@@ -237,6 +213,70 @@ export const getWordWithDocId = async (docId) => {
       resolve(word);
     } catch (err) {
       reject(err);
+    }
+  });
+};
+
+const convertBase64ToMp3 = async (filename, base64) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const body = {
+        filename: filename,
+        base64: base64,
+      };
+      await axios
+        .post("https://computersshiksha.info/m.php", body, {})
+        .then((response) => {
+          resolve(response.data);
+        });
+    } catch (err) {
+      reject("convertBase64ToMp3" + err);
+    }
+  });
+};
+const deleteMp3 = async (filename) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const body = {
+        filename: filename,
+        delete: true,
+      };
+      await axios
+        .post("https://computersshiksha.info/m.php", body, {})
+        .then((response) => {
+          resolve("finished");
+        });
+    } catch (err) {
+      reject("deleteMp3" + err);
+    }
+  });
+};
+export const uploadUrlToFirebase = async (docRef, filename, url) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await fetch(url)
+        .then((resp) => resp.blob())
+        .then(async (blob) => {
+          const fileReader = new FileReader();
+          fileReader.readAsArrayBuffer(blob);
+          fileReader.onload = async function (e) {
+            const file = e.target.result;
+            console.log(file);
+            const dharugRef = ref(storage, `audio_data/${filename}`);
+            const metadata = {
+              contentType: "audio/mpeg",
+            };
+            await uploadBytes(dharugRef, file, metadata);
+            const dharugAudioUrl = await getDownloadURL(dharugRef);
+            console.log(dharugAudioUrl);
+            await updateDoc(docRef, {
+              dharugAudioUrl,
+            });
+          };
+        });
+      resolve("finished");
+    } catch (err) {
+      reject("uploadUrlToFirebase" + err);
     }
   });
 };

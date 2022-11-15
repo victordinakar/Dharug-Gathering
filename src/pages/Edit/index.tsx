@@ -45,9 +45,9 @@ const Edit: React.FC = () => {
     category: "",
     dharugAudioFile: "",
     dharug: "",
-    englishAudioFile: "",
     english: "",
     id: words.length + 1 || "",
+    docId: "",
   };
   const [mimeTypeDharugAudio, setMimeTypeDharugAudio] = useState<string | null>(
     null
@@ -63,12 +63,14 @@ const Edit: React.FC = () => {
     if (!word.id) return setErrors({ id: "Id is required" });
     if (!word.english)
       return setErrors({ english: "English language is required" });
+
     if (!word.dharug)
       return setErrors({ dharug: "Dharug language is required" });
     if (!word.category) return setErrors({ category: "Category is required" });
     if (id && !word.docId)
       return setErrors({ message: "No document ID provided" });
-
+    if (micStatus == "recording")
+      return setErrors({ message: "Stop the recording" });
     try {
       setProcessing(true);
       const res = id ? await updateWord(word) : await addWord(word);
@@ -78,9 +80,10 @@ const Edit: React.FC = () => {
         message: `Word has been successfully ${id ? "Updated" : "Uploaded"}`,
         buttons: ["OK"],
       });
-      history.push("/admin");
+      history.push("/words");
     } catch (err: any) {
-      setErrors({ message: err?.message || "An error occurred" });
+      // setErrors({ message: err?.message || "An error occurred" });
+      setErrors({ message: err });
     } finally {
       setProcessing(false);
     }
@@ -104,7 +107,7 @@ const Edit: React.FC = () => {
                 message: `Word has been successfully deleted`,
                 buttons: ["OK"],
               });
-              history.push("/admin");
+              history.push("/words");
             } catch (err) {
               alert("Error deleting");
             } finally {
@@ -160,11 +163,6 @@ const Edit: React.FC = () => {
             });
             setBase64DharugAudio(result.value.recordDataBase64);
             setMimeTypeDharugAudio(result.value.mimeType);
-          } else if (lang == "englishAudio") {
-            setWord({
-              ...word,
-              englishAudio: result.value,
-            });
           }
         })
         .catch((error) => {
@@ -196,8 +194,6 @@ const Edit: React.FC = () => {
               onIonChange={(e) => setWord({ ...word, id: e.detail.value })}
               value={word.id}
             /> */}
-            {errors?.id && <small>{errors?.id || ""}</small>}
-
             <IonLabel position="stacked">English Language</IonLabel>
             <IonTextarea
               name="english"
@@ -255,48 +251,32 @@ const Edit: React.FC = () => {
             </small>
             {errors?.category && <small>{errors?.category || ""}</small>}
 
-            {/* <IonLabel position="stacked">English Audio</IonLabel>
-            <input
-              name="englishAudioFile"
-              type="file"
-              accept="audio/*"
-              onChange={(e) => {
-                var files: any = e?.target?.files;
-                if (Boolean(files[0])) {
-                  setWord({
-                    ...word,
-                    englishAudioFile: files[0],
-                  });
-                } else {
-                  setWord({
-                    ...word,
-                    englishAudioFile: "",
-                  });
-                }
-              }}
-            />
-            {errors?.id && <small>{errors?.id || ""}</small>} */}
-            {/* <IonRow>
-              <IonCol>
-                <IonItem class="center" onClick={() => record("englishAudio")}>
-                  <IonIcon
-                    icon={
-                      (Boolean(micStatus == "erecording") && stopOutline) ||
-                      micOutline
-                    }
-                  />
-                  <IonLabel>
-                    {micStatus == "erecording" ? "Stop" : "Record"}
-                  </IonLabel>
-                </IonItem>
-              </IonCol>
-            </IonRow> */}
             <IonRow>
               <IonCol>
                 <IonLabel position="stacked">Dharug Audio</IonLabel>
               </IonCol>
-              
+              <IonCol>
+                {Boolean(base64DharugAudio != null) && (
+                  <IonIcon icon={play} onClick={playAudio}></IonIcon>
+                )}
+              </IonCol>
             </IonRow>
+            <IonRow>
+              <IonCol>
+                <IonItem class="center" onClick={() => record("dharugAudio")}>
+                  <IonIcon
+                    icon={
+                      (Boolean(micStatus == "recording") && stopOutline) ||
+                      micOutline
+                    }
+                  />
+                  <IonLabel>
+                    {micStatus == "recording" ? "Stop" : "Record"}
+                  </IonLabel>
+                </IonItem>
+              </IonCol>
+            </IonRow>
+
             <input
               name="dharugAudioFile"
               type="file"
@@ -319,28 +299,6 @@ const Edit: React.FC = () => {
             {errors?.dharugAudioFile && (
               <small>{errors?.dharugAudioFile || ""}</small>
             )}
-            <IonRow>
-              <IonCol>
-                <IonItem class="center" onClick={() => record("dharugAudio")}>
-                  <IonIcon
-                    icon={
-                      (Boolean(micStatus == "recording") && stopOutline) ||
-                      micOutline
-                    }
-                  />
-                  <IonLabel>
-                    {micStatus == "recording" ? "Stop" : "Record"}
-                  </IonLabel>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-            <IonCol>
-                {Boolean(base64DharugAudio != null) && (
-                  <IonButton onClick={playAudio}>Play</IonButton>
-                )}
-              </IonCol>
-              </IonRow>
             <IonButton
               onClick={() => handleUpload()}
               disabled={processing || deleting}
